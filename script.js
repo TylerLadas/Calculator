@@ -12,7 +12,7 @@ class Calculator {
     }
 
     delete() {
-
+        this.currentOperand = this.currentOperand.toString().slice(0, -1)
     }
 
     appendNumber(number) {
@@ -31,7 +31,29 @@ class Calculator {
     }
 
     compute() {
-
+        let compututation
+        const prev = parseFloat(this.previousOperand)
+        const current = parseFloat(this.currentOperand)
+        if (isNaN(prev) || isNaN(current)) return
+        switch (this.operation) {
+            case '+':
+                compututation = prev + current
+                break
+            case '-':
+                compututation = prev - current
+                break
+            case '&times;':
+                compututation = prev * current
+                break
+            case '&divide;':
+                compututation = prev / current
+                break
+            default: 
+                return
+        }
+        this.currentOperand = compututation
+        this.operation = undefined
+        this.previousOperand = ''
     }
 
     updateDisplay() {
@@ -66,5 +88,15 @@ operationButtons.forEach(button => {
 
 equalsButton.addEventListener('click', button => {
     calculator.compute()
+    calculator.updateDisplay()
+})
+
+allClearButton.addEventListener('click', button => {
+    calculator.clear()
+    calculator.updateDisplay()
+})
+
+deleteButton.addEventListener('click', button => {
+    calculator.delete()
     calculator.updateDisplay()
 })
